@@ -1,7 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
 /* 파일 자동 업데이트: 받아 둔 더 새 판(localStorage mb_app_latest)이 있으면 그 판으로 바꿔 엶 */
 (function(){
-  var V='v.20';
+  var V='v.21';
   function num(v){var m=String(v||'').match(/(\d+)(?:\.(\d+))?/);return m?(+m[1])*1000+(+(m[2]||0)):0;}
   window.__MB_VER=V;window.__MB_NUM=num;
   if(/^https?:$/.test(location.protocol))return;          /* 웹 주소로 열면 서버 최신판 그대로 */
@@ -13,7 +13,7 @@
   setTimeout(function(){document.open();document.write(c.html);document.close();},0);
 })();
 </script>
-<title>엠보드 업무도구 v.20</title>
+<title>엠보드 업무도구 v.21</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
 <style>
 :root{--bg:#eef1f3;--bar:#ffffff;--ink:#1b2328;--muted:#5f6b73;--line:#d3d9de;--accent:#1f5b70;--accent-soft:#e1edf1}
@@ -130,7 +130,7 @@ iframe{background:var(--gray)}
 </style></head><body>
 <div class="upd" id="upd" hidden role="status"></div>
 <div class="top">
-  <div class="brand">엠보드 업무도구 <span class="v">v.20</span></div>
+  <div class="brand">엠보드 업무도구 <span class="v">v.21</span></div>
   <div class="tabs" role="tablist" aria-label="도구 선택">
     <button class="tab" role="tab" id="t-qty" data-k="qty" aria-controls="f-qty"><span class="n">1</span><span class="lb">물량산출서</span><span class="ls">물량산출서</span></button>
     <button class="tab" role="tab" id="t-wo" data-k="wo" aria-controls="f-wo"><span class="n">2</span><span class="lb">엠보드 작업지시서</span><span class="ls">작업지시서</span></button>
@@ -326,7 +326,7 @@ document.getElementById('ioExp').onclick=function(){
     var keys={},n=0;
     try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(IO_RE.test(k)){keys[k]=localStorage.getItem(k);n++;}}}catch(e){ioMsg('이 브라우저 저장소를 읽지 못했습니다.');return;}
     var site=ioSite(),d=new Date(),p=function(x){return (x<10?'0':'')+x;};
-    var data={app:'엠보드 업무도구',format:1,ver:'v.20',exportedAt:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()),site:site,keys:keys};
+    var data={app:'엠보드 업무도구',format:1,ver:'v.21',exportedAt:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()),site:site,keys:keys};
     var name='엠보드_현장자료_'+(site||'현장').replace(/[\\/:*?"<>|]/g,'_').slice(0,40)+'_'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'.json';
     var blob=new Blob([JSON.stringify(data)],{type:'application/json'}),done='내보냈습니다: '+name+' (항목 '+n+'개). 이 파일을 보내면 받는 사람이 [불러오기]로 똑같이 볼 수 있습니다.';
     // 링크(휴대폰)로 열었을 때는 저장 창으로, 파일로 열었을 때는 바로 내려받기
@@ -396,7 +396,7 @@ show(start);
    웹 주소로 연 경우: [새로고침] */
 (function(){
   if(window.__MB_SWAP)return;
-  var APP_VER=window.__MB_VER||'v.20',num=window.__MB_NUM;
+  var APP_VER=window.__MB_VER||'v.21',num=window.__MB_NUM;
   try{sessionStorage.removeItem('mb_swap_try');}catch(e){}
   var UPD_URL='https://hyoim4752-ai.github.io/hihi/mboard/',FIXED='엠보드 업무도구.html';
   var web=/^https?:$/.test(location.protocol);
