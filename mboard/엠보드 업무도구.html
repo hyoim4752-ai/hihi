@@ -1,5 +1,5 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>엠보드 업무도구 v.17</title>
+<title>엠보드 업무도구 v.18</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
 <style>
 :root{--bg:#eef1f3;--bar:#ffffff;--ink:#1b2328;--muted:#5f6b73;--line:#d3d9de;--accent:#1f5b70;--accent-soft:#e1edf1}
@@ -77,6 +77,11 @@ iframe{background:var(--gray)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--tb:#1b1e23;--ink2:#e9ecef;--mut2:#9aa3ad;--gray:#101215}
  .top{border-bottom-color:#2c3138} .tab:hover,.io button{background:#262a30} .tab[aria-selected="true"]{background:#e9ecef;color:#191f28} .tab[aria-selected="true"] .n{color:#191f28} .erpdlg .fl{background:#262a30} .erpdlg button{background:#262a30}}
 
+
+/* 위쪽 바를 안쪽 화면 본문(최대 1400 + 좌우 20, 가운데)과 같은 세로선에 맞춤. --sb = 안쪽 화면 스크롤바 폭 */
+@media (min-width:721px){
+  .top{--side:max(20px,calc((100vw - var(--sb,0px) - 1400px)/2));padding-left:var(--side);padding-right:calc(var(--sb,0px) + var(--side))}
+}
 /* 휴대폰 (720px 이하): 탭 4개를 한 줄에 나란히, ERP 올리기는 PC에서만 */
 .tab .ls{display:none}
 @media (max-width:720px){
@@ -111,7 +116,7 @@ iframe{background:var(--gray)}
 </style></head><body>
 <div class="upd" id="upd" hidden role="status"></div>
 <div class="top">
-  <div class="brand">엠보드 업무도구 <span class="v">v.17</span></div>
+  <div class="brand">엠보드 업무도구 <span class="v">v.18</span></div>
   <div class="tabs" role="tablist" aria-label="도구 선택">
     <button class="tab" role="tab" id="t-qty" data-k="qty" aria-controls="f-qty"><span class="n">1</span><span class="lb">물량산출서</span><span class="ls">물량산출서</span></button>
     <button class="tab" role="tab" id="t-wo" data-k="wo" aria-controls="f-wo"><span class="n">2</span><span class="lb">엠보드 작업지시서</span><span class="ls">작업지시서</span></button>
@@ -307,7 +312,7 @@ document.getElementById('ioExp').onclick=function(){
     var keys={},n=0;
     try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(IO_RE.test(k)){keys[k]=localStorage.getItem(k);n++;}}}catch(e){ioMsg('이 브라우저 저장소를 읽지 못했습니다.');return;}
     var site=ioSite(),d=new Date(),p=function(x){return (x<10?'0':'')+x;};
-    var data={app:'엠보드 업무도구',format:1,ver:'v.17',exportedAt:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()),site:site,keys:keys};
+    var data={app:'엠보드 업무도구',format:1,ver:'v.18',exportedAt:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()),site:site,keys:keys};
     var name='엠보드_현장자료_'+(site||'현장').replace(/[\\/:*?"<>|]/g,'_').slice(0,40)+'_'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'.json';
     var blob=new Blob([JSON.stringify(data)],{type:'application/json'}),done='내보냈습니다: '+name+' (항목 '+n+'개). 이 파일을 보내면 받는 사람이 [불러오기]로 똑같이 볼 수 있습니다.';
     // 링크(휴대폰)로 열었을 때는 저장 창으로, 파일로 열었을 때는 바로 내려받기
@@ -376,7 +381,7 @@ show(start);
    - GitHub에 올라가는 최신판 이름은 항상 「엠보드 업무도구.html」(번호 없음) + version.json
    - 열 때와 다시 볼 때(10분 간격) version.json 을 확인해서 더 새 판이면 위쪽에 안내 */
 (function(){
-  var APP_VER='v.17';
+  var APP_VER='v.18';
   var UPDATE_URL='https://hyoim4752-ai.github.io/hihi/mboard/';            // 파일로 받아 쓰는 사본이 확인할 GitHub 주소 (폴더, / 로 끝남)
   var FIXED='엠보드 업무도구.html';
   var web=/^https?:$/.test(location.protocol);
@@ -403,6 +408,21 @@ show(start);
   }
   check();
   document.addEventListener('visibilitychange',function(){if(!document.hidden)check();});
+})();
+</script>
+<script>
+/* 안쪽 화면 스크롤바 폭을 재서 위쪽 바 정렬에 씀 */
+(function(){
+  var last=-1;
+  function sb(){
+    var w=0;
+    document.querySelectorAll('.panes iframe').forEach(function(fr){
+      if(fr.hidden)return;
+      try{var d=fr.contentDocument,e=d&&d.documentElement;if(e)w=Math.max(0,fr.clientWidth-e.clientWidth);}catch(x){}
+    });
+    if(w!==last){last=w;document.documentElement.style.setProperty('--sb',w+'px');}
+  }
+  sb();setInterval(sb,300);window.addEventListener('resize',sb);
 })();
 </script>
 </body></html>
